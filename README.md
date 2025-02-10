@@ -1,6 +1,6 @@
 # Project Introduction
 
-  In this project, we demonstrate a novel label-only Membership Inference Attack called DHAttack, designed for Higher performance and Higher stealth, focusing on the boundary distance of individual samples to mitigate the effects of sample diversity, and measuring this distance toward a fixed point to minimize query overhead. For further details, please refer to our paper "Enhanced Label-Only Membership Inference Attacks with Fewer Queries", accepted at USENIX Security'25, authored by Hao Li, Zheng Li, Siyuan Wu, Yutong Ye, Min Zhang, Dengguo Feng, and Yang Zhang. As outlined in the **Compliance with Open Science Policy** section of our paper, the source code for our DHAttack is available here.
+  In this project, we demonstrate a novel label-only Membership Inference Attack called DHAttack, designed for Higher performance and Higher stealth, focusing on the boundary distance of individual samples to mitigate the effects of sample diversity, and measuring this distance toward a fixed point to minimize query overhead. For further details, please refer to our paper "Enhanced Label-Only Membership Inference Attacks with Fewer Queries", accepted at USENIX Security'25, authored by Hao Li, Zheng Li, Siyuan Wu, Yutong Ye, Min Zhang, Dengguo Feng, and Yang Zhang. As outlined in the **Open Science** section of our paper, the source code for our DHAttack is available here.
 
 # Directory Structure
 
@@ -67,17 +67,20 @@
 
   Finally, switch the project environment to the newly created one in order to run the project.
 
-  Note that, the hardware requirements are as follows: a minimum configuration of `NVIDIA GeForce RTX 2080Ti` is required, with `NVIDIA GeForce RTX 4090` recommended for optimal performance. Due to our attack method requiring the training of 256 local models (also known as reference or shadow models), the complete attack process is very time-consuming. Running the attack once on a `GeForce RTX 2080Ti` takes approximately 60 hours. However, for the same target model, the training of these 256 local models needs to be performed only once. If you can ensure that the dataset partitioning, target model, and the 256 shadow models already exit and are consistent, you can set `distillFlag = False` in the main function of `DHAttackBase.py`, which can skip the training of 256 local models. This reduces the attack's runtime to approximately 2–4 hours.
+  Note that, the hardware requirements are as follows: a minimum configuration of `NVIDIA GeForce RTX 2080Ti` is required, with `NVIDIA GeForce RTX 4090` recommended for optimal performance. Due to our attack method requiring the training of 256 local models (also known as reference or shadow models), the complete attack process is very time-consuming. Running the attack once on a `GeForce RTX 2080Ti` takes approximately 70 hours. However, for the same target model, the training of these 256 local models needs to be performed only once. If you can ensure that the dataset partitioning, target model, and the 256 shadow models already exit and are consistent, you can set `distillFlag = False` in the main function of `DHAttackBase.py`, which can skip the training of 256 local models. This reduces the attack's runtime to approximately 2–4 hours.
 
 # Usage Instructions
 
-  As outlined in the **Compliance with Open Science Policy** section of our paper, the source code for our DHAttack is available here. It primarily consists of three files: `preprocessData.py`, `trainTargetModel.py` and `DHAttackBase.py`. Additionally, we have included supplementary code that offers more detailed implementations.
+  As detailed in the **Open Science** section of our paper, the source code for DHAttack is accessible here. The code primarily comprises three files: `preprocessData.py`, `trainTargetModel.py` and `DHAttackBase.py`. These files support the CIFAR10, CIFAR100, CINIC10, and GTSRB datasets, as well as the VGG16, ResNet56, and MobileNetV2 models (see the **Step-by-Step Evaluation** section for details).
 
+  In addition, we have included supplementary code providing more detailed implementations (see the **Additional Results** section).
+
+  ---
   ## A. Step-by-Step Evaluation
   ### A1. Preprocess the dataset
   For CIFAR10, please place the CIFAR10 dataset files (downloaded from the official website, including `data_batch_1` to `data_batch_5` and `test_batch` files) into the `.\data\cifar-10-download` folder. Then, you can run `python preprocessData.py --dataset CIFAR10`. The processed data will be in the `.\data\CIFAR10\PreprocessedData_5_part` folder.
 
-  For CIFAR100, please place the CIFAR10 dataset files (downloaded from the official website, including `test` and `train` files) into the the `.\data\cifar-100-download` folder. Then, you can run `python preprocessData.py --dataset CIFAR100`. The processed data will be in the `.\data\CIFAR100\PreprocessedData_5_part` folder.
+  For CIFAR100, please place the CIFAR100 dataset files (downloaded from the official website, including `test` and `train` files) into the the `.\data\cifar-100-download` folder. Then, you can run `python preprocessData.py --dataset CIFAR100`. The processed data will be in the `.\data\CIFAR100\PreprocessedData_5_part` folder.
 
   For CINIC10, please place the CINIC10 dataset files (downloaded from the official website, including `train`, `test` and `valid` folders) into the the `.\data\CINIC-10-download` folder. Then, you can run `python preprocessData.py --dataset CINIC10`. The processed data will be in the `.\data\CINIC10\PreprocessedData_5_part` folder.
   
@@ -92,7 +95,7 @@
 
   Specifically, by setting `disturb_num` to 30 or 50 and `num_epoch_for_refmodel` to the value used in A2 (typically between 80 and 150), you can modify the `dataset` and `classifierType` parameters to reproduce the DHAttack performance results shown in **Table 3** of our paper. 
   
-  Additionally, adjusting `disturb_num` (i.e., 5, 10, 20, 30, 50, 100, 200) allows you to generate multiple DHAttack results, as depicted in **Figures 5 and 6** of our paper. 
+  Additionally, adjusting `disturb_num` (i.e., 5, 10, 20, 30, 50, 100, 200) allows you to generate multiple DHAttack results, as depicted in **Figures 5 and 6** of our paper. If you intend to modify only the `disturb_num` parameter and have previously successfully executed the A3 step on the same dataset and target model, you can use the additional parameter `trainRefModel` to bypass retraining the 256 local models, significantly reducing runtime. For example: `python DHAttackBase.py --dataset CIFAR10 --classifierType mobilenet --num_epoch_for_refmodel 100 --disturb_num 30 --trainRefModel False`
 
   Note that due to the randomness in model training, the attack performance may vary to some extent. 
 

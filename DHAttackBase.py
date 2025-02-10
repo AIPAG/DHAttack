@@ -767,6 +767,7 @@ def init_args():
     parser.add_argument('--classifierType', type=str, default='mobilenet')
     parser.add_argument('--disturb_num', type=int, default=30)
     parser.add_argument('--num_epoch_for_refmodel', type=int, default=100)
+    parser.add_argument('--trainRefModel', type=str, default='True')
     return parser.parse_args()
 
 
@@ -781,7 +782,7 @@ if __name__ == '__main__':
     
     num_epoch_for_refmodel = args.num_epoch_for_refmodel      
     
-    
+    trainRefModel = args.trainRefModel
     
     if dataset == 'CIFAR10':
         pathToLoadData = './data/cifar-10-download'  
@@ -815,8 +816,15 @@ if __name__ == '__main__':
 
     
     disturbFlag = True 
-    batch_size = 100  
-    distillFlag = True 
+    batch_size = 100
+    if trainRefModel == 'True':  
+        distillFlag = True
+    elif trainRefModel == 'False':
+        distillFlag = False
+    else:
+        print("Wrong parameter trainRefModel!")
+        exit()
+        
     num_workers = 1  
     refModelNum = 256 
 
