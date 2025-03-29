@@ -86,6 +86,8 @@
   
   For GTSRB, please place the GTSRB dataset files (downloaded from the official website, including `GTSRB_Final_Test_GT`, `GTSRB_Final_Test_Images` and `GTSRB_Final_Training_Images` folders) into the the `.\data\GTSRB-download` folder. Then, you can run `python preprocessData.py --dataset GTSRB`. The processed data will be in the `.\data\GTSRB\PreprocessedData_5_part` folder.
 
+  Additionally, for Linux systems, we provide two helper scripts, `download_cifar10.sh` and `download_cifar100.sh`, which can automatically download the CIFAR10 and CIFAR100 datasets from the official website and place them into the appropriate directories.
+
   ### A2. Train the target and shadow models
   Please run the command `python trainTargetModel.py --dataset CIFAR10 --classifierType mobilenet --num_epoch 100`. The target model(`targetModel_mobilenet.pkl`) and the shadow model(`shadowModel_mobilenet.pkl`) will be in the `models\CIFAR10` folder. Note: `num_epoch` refers to the number of training epochs for the models. You can modify the `dataset` and `classifierType` parameters to obtain different models, as illustrated in **Table 2** of our paper.
 
