@@ -47,7 +47,9 @@
 
   ├── readData.py
   
-  ├── SimpleThresholdSelecting.py
+  ├── download_cifar10.sh
+
+  ├── download_cifar100.sh
 
   └── trainTargetModel.py  
 ```
@@ -138,20 +140,7 @@
 
   Then, to obtain the results in Table 4, run the command `python DHAttackVaryingDatasetSize.py --dataset CIFAR10 --classifierType mobilenet --num_epoch_for_refmodel 100 --disturb_num 30 --ref_dataset_size 1000`, adjusting the `ref_dataset_size` parameter from 1000 to 40000.
 
-  ### B4. DHAttack with a simple threshold selecting method (For **Figure 13** in our paper)
-  Note: Take CIFAR10 as an example. This command must be execute after runing the attack of Step A3. Please check for the `targetModel_mobilenet.pkl`, `targetModel_vgg.pkl` and `targetModel_resnet.pkl` files in the `.\models\CIFAR10` directory. Also, check for the `mobilenet`, `vgg` and `resnet` folders in `.\models\CIFAR10\HardLabel`, ensuring that each folder contains 256 `.pkl` files.
-  
-  If the files and folders cannot be found in these directories, please re-run Steps A1 to A3 for each model on CIFAR10.
-
-  Then, to obtain results for MobileNetV2, run the following command: `python SimpleThresholdSelecting.py --dataset CIFAR10 --classifierType mobilenet --num_epoch_for_refmodel 100 --disturb_num 30 --num_samples 200`. `num_samples` is the number of synthetic samples generated from the RGB range of 0-255, representing non-members. Besides, `num_epoch_for_refmodel` is the number of training epochs for the reference models, using the same value as in Step A3. `disturb_num` is the number of queries to the target model, using the same value as in Step A3 (i.e., 30).
-
-  To obtain results for VGG-16, run the following command:  `python SimpleThresholdSelecting.py --dataset CIFAR10 --classifierType vgg --num_epoch_for_refmodel 100 --disturb_num 30 --num_samples 200`. 
-
-  To obtain results for ResNet-56, run the following command:  `python SimpleThresholdSelecting.py --dataset CIFAR10 --classifierType resnet --num_epoch_for_refmodel 100 --disturb_num 30 --num_samples 200`. 
-
-  A similar process can be followed to obtain results on CIFAR100.
-
-  ### B5. DHAttack using different model architectures for training local models (For **Figure 15** in our paper)
+  ### B4. DHAttack using different model architectures for training local models (For **Figure 15** in our paper)
   Note: This command must be execute after runing the attack of Step A2. Please check for the `targetModel_mobilenet.pkl`, `targetModel_vgg.pkl` and `targetModel_resnet.pkl` files in the `.\models\CIFAR10` directory.
   
   If the files and folders cannot be found in these directories, please re-run Steps A1 to A2 for each model on CIFAR10.
